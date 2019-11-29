@@ -7,6 +7,6 @@ function insertLink(title, url) {
 }
 
 Meteor.startup(() => {
-  const vid = new Video('https://www.youtube.com/watch?v=mD66opUGI2o');
-  vid.download('downloads');
+  // const vid = new Video('https://www.youtube.com/watch?v=mD66opUGI2o', 'Terence');
+  // vid.download('downloads');
 });
