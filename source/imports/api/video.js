@@ -1,24 +1,27 @@
 import { Mongo } from 'meteor/mongo';
 
-
 export default Videos = new Mongo.Collection('videos');
 
+const ARCHIVE_PATH = "~/soaptube_videos";
+const TEMP_PATH = process.cwd() + '/' + 'downloads';
+
 VideoStorage = new FS.Collection("videos", {
-    stores: [new FS.Store.FileSystem("videos", {path: "~/soaptube_videos"})]
+    stores: [new FS.Store.FileSystem("videos", {path: ARCHIVE_PATH})]
 });
 
-Meteor.methods({
-    'video.download'(url) {
-      let vid = new Video(url);
-      vid.download('downloads');
-    },
-
-    'video.delete'(id) {
-        Videos.remove(id);
-    }
-});
-
-
+const subtitle_options = {
+    // Write automatic subtitle file (youtube only)
+    auto: true,
+    // Downloads all the available subtitles.
+    all: false,
+    // Subtitle format. YouTube generated subtitles
+    // are available ttml or vtt.
+    format: 'vtt',
+    // Languages of subtitles to download, separated by commas.
+    lang: 'en',
+    // The directory to save the downloaded files in.
+    cwd: TEMP_PATH,
+};
 
 class Video {
     constructor(url) {
@@ -34,7 +37,7 @@ class Video {
             ['--format=18'],
             {cwd: process.env.PWD }
         )
-        let parent = this;
+        let parent = this
         //console.log(destPath);
         video.on('info', Meteor.bindEnvironment(function(info) {
             console.log('Download started')
@@ -55,35 +58,31 @@ class Video {
 
             let end_path = destPath + '/' + parent.video_info._filename
             VideoStorage.insert(end_path);            
-            Videos.update(parent.db_id, { $set: { local_path: end_path }})
-            parent.downloadSubs(destPath);
+            Videos.update(parent.db_id, { $set: { local_path: ARCHIVE_PATH + '/' + parent.video_info._filename}})
+            
+            youtubedl.getSubs(parent.url, subtitle_options, function(err, files) {
+                if (err) throw err
+                
+                if (files.length > 0) {
+                    console.log('subtitle files downloaded:', files)
+                    const sub_path = subtitle_options.cwd + '/' + files[0];
+
+                    VideoStorage.insert(sub_path);       
+                    
+                    Videos.update(parent.db_id, { $set: { subtitle_path: ARCHIVE_PATH + '/' + files[0]}})
+                }
+              })
         }))
     }
-
-    downloadSubs(destPath) {
-        const youtubedl = require('youtube-dl');
-
-        const options = {
-            // Write automatic subtitle file (youtube only)
-            auto: true,
-            // Downloads all the available subtitles.
-            all: false,
-            // Subtitle format. YouTube generated subtitles
-            // are available ttml or vtt.
-            format: 'vtt',
-            // Languages of subtitles to download, separated by commas.
-            lang: 'en',
-            // The directory to save the downloaded files in.
-            cwd: process.cwd() + '/' + destPath,
-          }
-          
-          youtubedl.getSubs(this.url, options, function(err, files) {
-            if (err) throw err
-            
-            if (files.length > 0) {
-                console.log('subtitle files downloaded:', files)
-                VideoStorage.insert(options.cwd + '/' + files[0]);                
-            }
-          })
-    }
 }
+
+Meteor.methods({
+    'video.download'(url) {
+      let vid = new Video(url);
+      vid.download('downloads');
+    },
+
+    'video.delete'(id) {
+        Videos.remove(id);
+    }
+});

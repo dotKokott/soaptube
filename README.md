@@ -36,6 +36,6 @@ The simple todo app tutorial was relatively intuitive. I guess most importantly 
 
   Video archive folder is now at `~/soaptube_videos`
 
-* Delete video from temporary `downloads` location after moving it to VideoStorage
+* Use new VideoStorage path in DB
 
 * Watch video (+ subtitles)
