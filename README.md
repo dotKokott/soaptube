@@ -18,4 +18,4 @@ Spin the decks of spoken word! Tool for mixing &amp; archiving (youtube?) videos
 
 * Web! ~~Desktop?~~
 * What backend stack? (Node? django? C#?)
-* What frontend stack? (Vue? ...)
+* What frontend stack? (Vue? ....)
