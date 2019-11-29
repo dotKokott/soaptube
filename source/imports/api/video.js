@@ -3,6 +3,10 @@ import { Mongo } from 'meteor/mongo';
 
 export default Videos = new Mongo.Collection('videos');
 
+VideoStorage = new FS.Collection("videos", {
+    stores: [new FS.Store.FileSystem("videos", {path: "~/soaptube_videos"})]
+});
+
 Meteor.methods({
     'video.download'(url) {
       let vid = new Video(url);
@@ -13,6 +17,8 @@ Meteor.methods({
         Videos.remove(id);
     }
 });
+
+
 
 class Video {
     constructor(url) {
@@ -37,8 +43,7 @@ class Video {
 
             parent.video_info = info;
             Videos.update(parent.db_id, { $set: { video_info: parent.video_info }})
-
-            video.pipe(fs.createWriteStream(destPath + '/' + info._filename))
+            video.pipe(fs.createWriteStream(destPath + '/' + info._filename))            
         }));
 
         video.on('error', function error(err) {
@@ -47,7 +52,10 @@ class Video {
         
         video.on('end', Meteor.bindEnvironment(function() {
             console.log('finished downloading!')
-            Videos.update(parent.db_id, { $set: { local_path: destPath + '/' + parent.video_info._filename }})
+
+            let end_path = destPath + '/' + parent.video_info._filename
+            VideoStorage.insert(end_path);            
+            Videos.update(parent.db_id, { $set: { local_path: end_path }})
             parent.downloadSubs(destPath);
         }))
     }
@@ -71,8 +79,11 @@ class Video {
           
           youtubedl.getSubs(this.url, options, function(err, files) {
             if (err) throw err
-          
-            console.log('subtitle files downloaded:', files)
+            
+            if (files.length > 0) {
+                console.log('subtitle files downloaded:', files)
+                VideoStorage.insert(options.cwd + '/' + files[0]);                
+            }
           })
     }
 }

@@ -31,11 +31,11 @@ The simple todo app tutorial was relatively intuitive. I guess most importantly 
 
 #### Tasks
 
-* How to make a **download folder** outside of
-`/Users/dotkokott/Desktop/Code/soaptube/source/.meteor/local/build/programs/server`
+* ~~How to make a **download folder** outside of~~
+~~`/Users/dotkokott/Desktop/Code/soaptube/source/.meteor/local/build/programs/server`~~~
 
-* ~~How to send download request from client to server?~~~
+  Video archive folder is now at `~/soaptube_videos`
 
-  Is `meteor.call` the right way?
+* Delete video from temporary `downloads` location after moving it to VideoStorage
 
 * Watch video (+ subtitles)
