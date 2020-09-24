@@ -1,0 +1,19 @@
+{
+  "name": "soaptube",
+  "version": "0.0.1",
+  "description": "Spin the decks of spoken word! Tool for mixing & archiving (youtube?) videos.",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotKokott/soaptube.git"
+  },
+  "author": "Christian Kokott",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dotKokott/soaptube/issues"
+  },
+  "homepage": "https://github.com/dotKokott/soaptube#readme"
+}
