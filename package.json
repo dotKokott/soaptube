@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/dotKokott/soaptube/issues"
   },
-  "homepage": "https://github.com/dotKokott/soaptube#readme"
+  "homepage": "https://github.com/dotKokott/soaptube#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "youtube-dl": "^3.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2",
+    "nodemon": "^2.0.4"
+  }
 }
