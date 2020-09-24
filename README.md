@@ -15,27 +15,14 @@ Spin the decks of spoken word! Tool for mixing &amp; archiving (youtube?) videos
 * Manage archive (delete, update etc.)
 
 ### TODO (v0.1)
+- [x] Toss out old meteor code
+- [ ] Strip video.js to the interesting parts
+- [ ] Init simple node app
+- [ ] Get video downloading on command line
 
 #### Setup
-* Web! ~~Desktop?~~
-* ~~What backend stack? (Node! ~~django? C#?~~)~~
-* ~~What frontend stack? (Vue? React?....)~~
-* Lets try Meteor.js!
 
-  `meteor create --react app_name`
-
-On first impression Meteor seems like a decent pick to learn the new chops of a full stack js web app.
-The simple todo app tutorial was relatively intuitive. I guess most importantly to just pick something now that works & run with it.
-
-**Decision:** I will go with Meteor for now, including MongoDB for storage.
-
-#### Tasks
-
-* ~~How to make a **download folder** outside of~~
-~~`/Users/dotkokott/Desktop/Code/soaptube/source/.meteor/local/build/programs/server`~~~
-
-  Video archive folder is now at `~/soaptube_videos`
-
-* ~~Use new VideoStorage path in DB~~
+- [x] Meteor was a terrible decision
+- [ ] Lets get everything working with standard node + vue
 
 * Watch video (+ subtitles)
