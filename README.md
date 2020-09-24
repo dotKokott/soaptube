@@ -18,7 +18,7 @@ Spin the decks of spoken word! Tool for mixing &amp; archiving (youtube?) videos
 - [x] Toss out old meteor code
 - [x] Init simple node app
 - [x] Strip video.js to the interesting parts
-- [ ] Get server hot reload stuff working
+- [ ] Get server hot reload stuff workingn
 - [ ] Get video downloading on command line
 
 #### Setup
