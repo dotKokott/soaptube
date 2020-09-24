@@ -1,13 +1,5 @@
-import { Mongo } from 'meteor/mongo';
-
-export default Videos = new Mongo.Collection('videos');
-
 const ARCHIVE_PATH = "~/soaptube_videos";
 const TEMP_PATH = process.cwd() + '/' + 'downloads';
-
-VideoStorage = new FS.Collection("videos", {
-    stores: [new FS.Store.FileSystem("videos", {path: ARCHIVE_PATH})]
-});
 
 const subtitle_options = {
     // Write automatic subtitle file (youtube only)
@@ -24,21 +16,17 @@ const subtitle_options = {
 };
 
 class Video {
-    constructor(url) {
-        this.url = url;
-        this.db_id = Videos.insert({'url': url});
-    }
-
     download(destPath) {
-        const youtubedl = require('youtube-dl');
-        const fs = require('fs');
+        const youtubedl = require('youtube-dl')
+        const fs = require('fs') 
 
         const video = youtubedl(this.url,
             ['--format=18'],
             {cwd: process.env.PWD }
         )
-        let parent = this
-        //console.log(destPath);
+        
+        let parent = this    
+        
         video.on('info', Meteor.bindEnvironment(function(info) {
             console.log('Download started')
             console.log('filename: ' + info._filename)
@@ -47,7 +35,7 @@ class Video {
             parent.video_info = info;
             Videos.update(parent.db_id, { $set: { video_info: parent.video_info }})
             video.pipe(fs.createWriteStream(destPath + '/' + info._filename))            
-        }));
+        }))
 
         video.on('error', function error(err) {
             console.log('error 2:', err)
