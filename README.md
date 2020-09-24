@@ -16,8 +16,8 @@ Spin the decks of spoken word! Tool for mixing &amp; archiving (youtube?) videos
 
 ### TODO (v0.1)
 - [x] Toss out old meteor code
+- [x] Init simple node app
 - [ ] Strip video.js to the interesting parts
-- [ ] Init simple node app
 - [ ] Get video downloading on command line
 
 #### Setup
